@@ -1,30 +1,41 @@
 import React, { useState } from "react";
 
-const NicknameGeneratorWithEmojis = () => {
+const NicknameGeneratorWithCategories = () => {
   const [nickname, setNickname] = useState("");
+  const [category, setCategory] = useState("all");
 
   const adjectives = [
     "Dark", "Crazy", "Silent", "Epic", "Wild", "Swift", "Golden", "Mighty", "Frozen",
     "Brave", "Legendary", "Savage", "Fearless", "Mystic", "Shadowy", "Ancient", "Cursed",
     "Radiant", "Infernal", "Stormy", "Bloody", "Sacred", "Iron", "Venomous", "Celestial",
-    "Arcane", "Vicious", "Enchanted", "Royal", "Cosmic", "Obsidian", "Crimson", "Eternal"
+    "Arcane", "Vicious", "Enchanted", "Royal", "Cosmic", "Obsidian", "Crimson", "Eternal",
+    "Fierce", "Noble", "Grim", "Heroic", "Majestic", "Chaotic", "Divine", "Thunderous",
+    "Glorious", "Merciless", "Wicked", "Bright", "Unholy", "Blessed", "Immortal", "Forgotten"
   ];
 
-  const nouns = [
-    "Wolf", "Dragon", "Ninja", "Wizard", "Knight", "Shadow", "Phoenix", "Samurai", "Titan",
-    "Hunter", "Warrior", "Demon", "Angel", "Beast", "Sorcerer", "Valkyrie", "Guardian",
-    "Reaper", "Monk", "Paladin", "Assassin", "Shaman", "Rogue", "Warlord", "Champion"
-  ];
+  const nounsByCategory = {
+    warriors: ["Knight", "Samurai", "Titan", "Hunter", "Warrior", "Paladin", "Assassin", "Champion", "Gladiator"],
+    mystical: ["Wizard", "Sorcerer", "Shaman", "Mage", "Seer", "Prophet", "Invoker", "Necromancer"],
+    creatures: ["Wolf", "Dragon", "Phoenix", "Valkyrie", "Elf", "Orc", "Cyclops", "Minotaur", "Centaur"],
+    monsters: ["Demon", "Reaper", "Vampire", "Zombie", "Werewolf", "Beast", "Golem", "Sphinx", "Giant"],
+    all: []
+  };
+
+  nounsByCategory.all = Object.values(nounsByCategory).flat();
 
   const emojis = [
     "🔥", "⚡", "🌙", "🐉", "👑", "💀", "🦊", "⭐", 
     "🌟", "🕹️", "🎮", "🛡️", "⚔️", "🐺", "🦅", "🌌", 
-    "🍀", "🎭", "🧙‍♂️", "🪄", "🧛‍♂️", "🦄", "🐲", "🪐"
+    "🍀", "🎭", "🧙‍♂️", "🪄", "🧛‍♂️", "🦄", "🐲", "🪐",
+    "🏴‍☠️", "🚀", "🤖", "🧩", "🕷️", "🐍", "🐉", "🦖", 
+    "🌋", "❄️", "🔥", "🌪️", "💫", "🪙", "⚜️", "🔮", 
+    "🧞‍♂️", "👽", "👻", "🎩", "🦜", "🐙", "🦈", "🐢"
   ];
 
   const generateNickname = () => {
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const nounList = nounsByCategory[category];
+    const noun = nounList[Math.floor(Math.random() * nounList.length)];
     const emoji = emojis[Math.floor(Math.random() * emojis.length)];
     const number = Math.floor(Math.random() * 100);
     setNickname(`${emoji} ${adj}${noun}${number} ${emoji}`);
@@ -32,12 +43,21 @@ const NicknameGeneratorWithEmojis = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Gerador de Nickname com Emojis</h2>
+      <h2>Gerador de Nickname com Categorias e Emojis</h2>
+      <select onChange={(e) => setCategory(e.target.value)} value={category}>
+        <option value="all">Todos</option>
+        <option value="warriors">Guerreiros</option>
+        <option value="mystical">Místicos</option>
+        <option value="creatures">Criaturas</option>
+        <option value="monsters">Monstros</option>
+      </select>
+      <br /><br />
       <button onClick={generateNickname}>Gerar Nickname</button>
       {nickname && <h3>Seu nickname: {nickname}</h3>}
     </div>
   );
 };
 
-export default NicknameGeneratorWithEmojis;
+export default NicknameGeneratorWithCategories;
 
+    
