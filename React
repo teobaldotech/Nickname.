@@ -1,25 +1,43 @@
 import React, { useState } from "react";
 
-const NicknameGenerator = () => {
+const NicknameGeneratorWithEmojis = () => {
   const [nickname, setNickname] = useState("");
 
-  const adjectives = ["Dark", "Crazy", "Silent", "Epic", "Wild", "Swift"];
-  const nouns = ["Wolf", "Dragon", "Ninja", "Wizard", "Knight", "Shadow"];
+  const adjectives = [
+    "Dark", "Crazy", "Silent", "Epic", "Wild", "Swift", "Golden", "Mighty", "Frozen",
+    "Brave", "Legendary", "Savage", "Fearless", "Mystic", "Shadowy", "Ancient", "Cursed",
+    "Radiant", "Infernal", "Stormy", "Bloody", "Sacred", "Iron", "Venomous", "Celestial",
+    "Arcane", "Vicious", "Enchanted", "Royal", "Cosmic", "Obsidian", "Crimson", "Eternal"
+  ];
+
+  const nouns = [
+    "Wolf", "Dragon", "Ninja", "Wizard", "Knight", "Shadow", "Phoenix", "Samurai", "Titan",
+    "Hunter", "Warrior", "Demon", "Angel", "Beast", "Sorcerer", "Valkyrie", "Guardian",
+    "Reaper", "Monk", "Paladin", "Assassin", "Shaman", "Rogue", "Warlord", "Champion"
+  ];
+
+  const emojis = [
+    "🔥", "⚡", "🌙", "🐉", "👑", "💀", "🦊", "⭐", 
+    "🌟", "🕹️", "🎮", "🛡️", "⚔️", "🐺", "🦅", "🌌", 
+    "🍀", "🎭", "🧙‍♂️", "🪄", "🧛‍♂️", "🦄", "🐲", "🪐"
+  ];
 
   const generateNickname = () => {
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
     const number = Math.floor(Math.random() * 100);
-    setNickname(`${adj}${noun}${number}`);
+    setNickname(`${emoji} ${adj}${noun}${number} ${emoji}`);
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Gerador de Nickname</h2>
+      <h2>Gerador de Nickname com Emojis</h2>
       <button onClick={generateNickname}>Gerar Nickname</button>
       {nickname && <h3>Seu nickname: {nickname}</h3>}
     </div>
   );
 };
 
-export default NicknameGenerator;
+export default NicknameGeneratorWithEmojis;
+
