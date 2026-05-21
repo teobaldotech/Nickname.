@@ -1,0 +1,25 @@
+import React, { useState } from "react";
+
+const NicknameGenerator = () => {
+  const [nickname, setNickname] = useState("");
+
+  const adjectives = ["Dark", "Crazy", "Silent", "Epic", "Wild", "Swift"];
+  const nouns = ["Wolf", "Dragon", "Ninja", "Wizard", "Knight", "Shadow"];
+
+  const generateNickname = () => {
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const number = Math.floor(Math.random() * 100);
+    setNickname(`${adj}${noun}${number}`);
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Gerador de Nickname</h2>
+      <button onClick={generateNickname}>Gerar Nickname</button>
+      {nickname && <h3>Seu nickname: {nickname}</h3>}
+    </div>
+  );
+};
+
+export default NicknameGenerator;
