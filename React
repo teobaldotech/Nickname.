@@ -3,61 +3,212 @@ import React, { useState } from "react";
 const NicknameGeneratorWithCategories = () => {
   const [nickname, setNickname] = useState("");
   const [category, setCategory] = useState("all");
+  const [history, setHistory] = useState([]);
 
   const adjectives = [
-    "Dark", "Crazy", "Silent", "Epic", "Wild", "Swift", "Golden", "Mighty", "Frozen",
-    "Brave", "Legendary", "Savage", "Fearless", "Mystic", "Shadowy", "Ancient", "Cursed",
-    "Radiant", "Infernal", "Stormy", "Bloody", "Sacred", "Iron", "Venomous", "Celestial",
-    "Arcane", "Vicious", "Enchanted", "Royal", "Cosmic", "Obsidian", "Crimson", "Eternal",
-    "Fierce", "Noble", "Grim", "Heroic", "Majestic", "Chaotic", "Divine", "Thunderous",
-    "Glorious", "Merciless", "Wicked", "Bright", "Unholy", "Blessed", "Immortal", "Forgotten"
+    "Dark", "Crazy", "Silent", "Epic", "Wild", "Swift", "Golden", "Mighty",
+    "Frozen", "Brave", "Legendary", "Savage", "Fearless", "Mystic", "Shadowy",
+    "Ancient", "Cursed", "Radiant", "Infernal", "Stormy", "Bloody", "Sacred",
+    "Iron", "Venomous", "Celestial", "Arcane", "Vicious", "Enchanted",
+    "Royal", "Cosmic", "Obsidian", "Crimson", "Eternal", "Fierce", "Noble",
+    "Grim", "Heroic", "Majestic", "Chaotic", "Divine", "Thunderous",
+    "Glorious", "Merciless", "Wicked", "Bright", "Unholy", "Blessed",
+    "Immortal", "Forgotten"
   ];
 
   const nounsByCategory = {
-    warriors: ["Knight", "Samurai", "Titan", "Hunter", "Warrior", "Paladin", "Assassin", "Champion", "Gladiator"],
-    mystical: ["Wizard", "Sorcerer", "Shaman", "Mage", "Seer", "Prophet", "Invoker", "Necromancer"],
-    creatures: ["Wolf", "Dragon", "Phoenix", "Valkyrie", "Elf", "Orc", "Cyclops", "Minotaur", "Centaur"],
-    monsters: ["Demon", "Reaper", "Vampire", "Zombie", "Werewolf", "Beast", "Golem", "Sphinx", "Giant"],
+    warriors: [
+      "Knight", "Samurai", "Titan", "Hunter",
+      "Warrior", "Paladin", "Assassin", "Champion", "Gladiator"
+    ],
+
+    mystical: [
+      "Wizard", "Sorcerer", "Shaman", "Mage",
+      "Seer", "Prophet", "Invoker", "Necromancer"
+    ],
+
+    creatures: [
+      "Wolf", "Dragon", "Phoenix", "Valkyrie",
+      "Elf", "Orc", "Cyclops", "Minotaur", "Centaur"
+    ],
+
+    monsters: [
+      "Demon", "Reaper", "Vampire", "Zombie",
+      "Werewolf", "Beast", "Golem", "Sphinx", "Giant"
+    ],
+
     all: []
   };
 
-  nounsByCategory.all = Object.values(nounsByCategory).flat();
+  nounsByCategory.all = Object.values(nounsByCategory)
+    .flat()
+    .filter((item) => item !== undefined);
 
   const emojis = [
-    "🔥", "⚡", "🌙", "🐉", "👑", "💀", "🦊", "⭐", 
-    "🌟", "🕹️", "🎮", "🛡️", "⚔️", "🐺", "🦅", "🌌", 
+    "🔥", "⚡", "🌙", "🐉", "👑", "💀", "🦊", "⭐",
+    "🌟", "🕹️", "🎮", "🛡️", "⚔️", "🐺", "🦅", "🌌",
     "🍀", "🎭", "🧙‍♂️", "🪄", "🧛‍♂️", "🦄", "🐲", "🪐",
-    "🏴‍☠️", "🚀", "🤖", "🧩", "🕷️", "🐍", "🐉", "🦖", 
-    "🌋", "❄️", "🔥", "🌪️", "💫", "🪙", "⚜️", "🔮", 
+    "🏴‍☠️", "🚀", "🤖", "🧩", "🕷️", "🐍", "🦖",
+    "🌋", "❄️", "🌪️", "💫", "🪙", "⚜️", "🔮",
     "🧞‍♂️", "👽", "👻", "🎩", "🦜", "🐙", "🦈", "🐢"
   ];
 
   const generateNickname = () => {
-    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const adj =
+      adjectives[Math.floor(Math.random() * adjectives.length)];
+
     const nounList = nounsByCategory[category];
-    const noun = nounList[Math.floor(Math.random() * nounList.length)];
-    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-    const number = Math.floor(Math.random() * 100);
-    setNickname(`${emoji} ${adj}${noun}${number} ${emoji}`);
+
+    const noun =
+      nounList[Math.floor(Math.random() * nounList.length)];
+
+    const emoji =
+      emojis[Math.floor(Math.random() * emojis.length)];
+
+    const number = Math.floor(Math.random() * 999);
+
+    const newNickname =
+      `${emoji} ${adj}${noun}${number} ${emoji}`;
+
+    setNickname(newNickname);
+
+    setHistory((prev) => [newNickname, ...prev.slice(0, 4)]);
+  };
+
+  const copyNickname = () => {
+    navigator.clipboard.writeText(nickname);
+    alert("Nickname copiado!");
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Gerador de Nickname com Categorias e Emojis</h2>
-      <select onChange={(e) => setCategory(e.target.value)} value={category}>
-        <option value="all">Todos</option>
-        <option value="warriors">Guerreiros</option>
-        <option value="mystical">Místicos</option>
-        <option value="creatures">Criaturas</option>
-        <option value="monsters">Monstros</option>
-      </select>
-      <br /><br />
-      <button onClick={generateNickname}>Gerar Nickname</button>
-      {nickname && <h3>Seu nickname: {nickname}</h3>}
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>
+          🎮 Gerador de Nickname Gamer
+        </h1>
+
+        <select
+          style={styles.select}
+          onChange={(e) => setCategory(e.target.value)}
+          value={category}
+        >
+          <option value="all">Todos</option>
+          <option value="warriors">Guerreiros</option>
+          <option value="mystical">Místicos</option>
+          <option value="creatures">Criaturas</option>
+          <option value="monsters">Monstros</option>
+        </select>
+
+        <button style={styles.button} onClick={generateNickname}>
+          ⚡ Gerar Nickname
+        </button>
+
+        {nickname && (
+          <>
+            <div style={styles.nicknameBox}>
+              <h2>{nickname}</h2>
+            </div>
+
+            <button style={styles.copyButton} onClick={copyNickname}>
+              📋 Copiar
+            </button>
+          </>
+        )}
+
+        {history.length > 0 && (
+          <div style={styles.history}>
+            <h3>Últimos Nicknames</h3>
+
+            {history.map((nick, index) => (
+              <p key={index} style={styles.historyItem}>
+                {nick}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default NicknameGeneratorWithCategories;
+const styles = {
+  container: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background:
+      "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
+    padding: "20px",
+    fontFamily: "Arial"
+  },
 
-    
+  card: {
+    background: "rgba(255,255,255,0.08)",
+    padding: "30px",
+    borderRadius: "20px",
+    width: "100%",
+    maxWidth: "500px",
+    textAlign: "center",
+    color: "white",
+    backdropFilter: "blur(10px)",
+    boxShadow: "0 0 25px rgba(0,0,0,0.4)"
+  },
+
+  title: {
+    marginBottom: "20px"
+  },
+
+  select: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "none",
+    marginBottom: "20px",
+    fontSize: "16px"
+  },
+
+  button: {
+    width: "100%",
+    padding: "14px",
+    border: "none",
+    borderRadius: "12px",
+    background: "#6c63ff",
+    color: "white",
+    fontSize: "18px",
+    cursor: "pointer",
+    transition: "0.3s"
+  },
+
+  nicknameBox: {
+    marginTop: "25px",
+    padding: "20px",
+    background: "rgba(255,255,255,0.1)",
+    borderRadius: "15px"
+  },
+
+  copyButton: {
+    marginTop: "15px",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "10px",
+    background: "#00c853",
+    color: "white",
+    cursor: "pointer",
+    fontSize: "16px"
+  },
+
+  history: {
+    marginTop: "25px",
+    textAlign: "left"
+  },
+
+  historyItem: {
+    background: "rgba(255,255,255,0.08)",
+    padding: "10px",
+    borderRadius: "10px",
+    marginBottom: "10px"
+  }
+};
+
+export default NicknameGeneratorWithCategories;
